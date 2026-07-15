@@ -7,11 +7,11 @@ import lombok.RequiredArgsConstructor;
 import com.kaniel.product.model.Produto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.kaniel.product.service.ProdutoService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,6 +26,16 @@ public class ProdutoController {
         novoProduto.setPreco(request.preco());
         novoProduto.setQuantidadeEstoque(request.quantidadeEstoque());
         return new ResponseEntity<>(toResponse(produtoService.cadastrarProduto(novoProduto)), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ProdutoResponseDTO>> buscarPorNome(@RequestParam String nome){
+        List<ProdutoResponseDTO> produtos = produtoService.buscarProdutoPorNome(nome).stream().map(this::toResponse).toList();
+
+        return ResponseEntity.ok(produtos);
+
+
+
     }
 
 
