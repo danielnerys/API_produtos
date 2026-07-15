@@ -24,7 +24,9 @@ spring.jpa.properties.hibernate.format_sql=true<br>
 
 ##Endpoint http://localhost:8080/api/produtos
 
-<img src="https://exemplo.com](https://github.com/danielnerys/API_produtos/blob/main/images/API_status_201.png" alt="retorno com status 201">
+<img src="./images/API_status_201.png" alt="Retorno com status 201">
 
-<img src="https://exemplo.com](https://github.com/danielnerys/API_produtos/blob/main/images/API_status_201.png" alt="retorno com status 409">
+### Exemplo de erro tratado
+
+<img src="./images/API_STATUS_409.png" alt="Retorno com status 409">
 
