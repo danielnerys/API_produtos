@@ -7,6 +7,8 @@ public record ProdutoResponseDTO(
         UUID id,
         String nome,
         BigDecimal preco,
-        Integer quantidadeEstoque
+        Integer quantidadeEstoque,
+        CategoriaResumoDTO categoria
+
 ) {
 }
