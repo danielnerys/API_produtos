@@ -6,10 +6,12 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public record ProdutoRequestDTO(
         @NotBlank String nome,
         @NotNull @Positive BigDecimal preco,
-        @NotNull @PositiveOrZero Integer quantidadeEstoque
+        @NotNull @PositiveOrZero Integer quantidadeEstoque,
+        @NotNull UUID categoriaId
 ) {
 }

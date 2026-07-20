@@ -29,4 +29,11 @@ public class GlobalExceptionHandler {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erros);
     }
+    @ExceptionHandler(CategoriaJaExistenteException.class)
+    public ResponseEntity<Map<String, String>> tratarCategoriaJaExistente(CategoriaJaExistenteException exception){
+        Map<String, String> erro = new HashMap<>();
+
+        erro.put("mensagem", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
+    }
 }
