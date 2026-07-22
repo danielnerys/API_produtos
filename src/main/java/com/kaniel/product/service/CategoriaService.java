@@ -7,6 +7,8 @@ import com.kaniel.product.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CategoriaService {
@@ -18,6 +20,10 @@ public class CategoriaService {
         }
         return categoriaRepository.save(categoria);
 
+    }
+
+    public List<Categoria> listarTodos(){
+        return categoriaRepository.findAll();
     }
 
 }
