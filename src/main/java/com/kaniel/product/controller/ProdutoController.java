@@ -1,19 +1,25 @@
 package com.kaniel.product.controller;
 
+import com.kaniel.product.dto.request.ProdutoAtualizacaoDTO;
 import com.kaniel.product.dto.request.ProdutoRequestDTO;
 import com.kaniel.product.dto.response.ProdutoResponseDTO;
 import com.kaniel.product.mapper.ProdutoMapper;
+import com.kaniel.product.model.Produto;
 import com.kaniel.product.repository.ProdutoRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 import com.kaniel.product.service.ProdutoService;
 
-import java.util.List;
+import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.util.*;
 
-import static java.util.stream.Collectors.toList;
+import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,7 +35,7 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProdutoResponseDTO>> buscarPorNome(@RequestParam String nome){
+    public ResponseEntity<List<ProdutoResponseDTO>> buscarPorNome(@RequestParam String nome) {
         List<ProdutoResponseDTO> produtos = produtoService.buscarProdutoPorNome(nome).stream().map(produtoMapper::toResponse).toList();
 
         return ResponseEntity.ok(produtos);
@@ -37,12 +43,21 @@ public class ProdutoController {
     }
 
 
-@GetMapping("/todos")
-    public ResponseEntity<List<ProdutoResponseDTO>> listarTodos(){
+    @GetMapping("/todos")
+    public ResponseEntity<List<ProdutoResponseDTO>> listarTodos() {
         List<ProdutoResponseDTO> produtos = produtoRepository.findAll().stream().map(produtoMapper::toResponse).toList();
 
         return ResponseEntity.ok(produtos);
-}
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProdutoResponseDTO> atualizarProduto(@PathVariable UUID id, @RequestBody @Valid ProdutoAtualizacaoDTO dto){
+        return new ResponseEntity<>(produtoMapper.toResponse(produtoService.atualizarProduto(id, dto)), HttpStatus.OK);
+    }
+
+
+
+
 
 
 

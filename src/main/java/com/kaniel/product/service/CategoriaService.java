@@ -26,4 +26,7 @@ public class CategoriaService {
         return categoriaRepository.findAll();
     }
 
+
+
+
 }
