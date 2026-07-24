@@ -4,22 +4,15 @@ import com.kaniel.product.dto.request.ProdutoAtualizacaoDTO;
 import com.kaniel.product.dto.request.ProdutoRequestDTO;
 import com.kaniel.product.dto.response.ProdutoResponseDTO;
 import com.kaniel.product.mapper.ProdutoMapper;
-import com.kaniel.product.model.Produto;
 import com.kaniel.product.repository.ProdutoRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 import com.kaniel.product.service.ProdutoService;
 
-import java.lang.reflect.Field;
-import java.math.BigDecimal;
 import java.util.*;
-
-import java.util.Map;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -53,6 +46,12 @@ public class ProdutoController {
     @PatchMapping("/{id}")
     public ResponseEntity<ProdutoResponseDTO> atualizarProduto(@PathVariable UUID id, @RequestBody @Valid ProdutoAtualizacaoDTO dto){
         return new ResponseEntity<>(produtoMapper.toResponse(produtoService.atualizarProduto(id, dto)), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ProdutoResponseDTO> deletarProduto(@PathVariable UUID id){
+        produtoService.deletarProduto(id);
+        return ResponseEntity.ok().build();
     }
 
 

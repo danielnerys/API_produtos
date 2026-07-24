@@ -52,6 +52,16 @@ public class ProdutoService {
 
     }
 
+    public void deletarProduto(UUID id){
+       if(produtoRepository.existsById(id)){
+           produtoRepository.deleteById(id);
+       }else {
+           throw new ProdutoNaoEncontradoException(id);
+       }
+
+
+    }
+
 
 }
 
