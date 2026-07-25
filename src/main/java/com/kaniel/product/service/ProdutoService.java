@@ -53,13 +53,9 @@ public class ProdutoService {
     }
 
     public void deletarProduto(UUID id){
-       if(produtoRepository.existsById(id)){
-           produtoRepository.deleteById(id);
-       }else {
-           throw new ProdutoNaoEncontradoException(id);
-       }
+        Produto produtoASerDeletado = produtoRepository.findById(id).orElseThrow(() -> new ProdutoNaoEncontradoException(id));
 
-
+        produtoRepository.delete(produtoASerDeletado);
     }
 
 
