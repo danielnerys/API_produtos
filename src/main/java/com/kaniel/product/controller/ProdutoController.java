@@ -49,9 +49,9 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ProdutoResponseDTO> deletarProduto(@PathVariable UUID id){
-        produtoService.deletarProduto(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> deletarProduto(@PathVariable UUID id){
+       produtoService.deletarProduto(id);
+       return ResponseEntity.noContent().build();
     }
 
 
