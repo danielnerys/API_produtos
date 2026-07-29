@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -36,32 +37,39 @@ public class ProdutoControllerIntegrationTest {
     private Categoria categoriaTeste;
 
 
-
     @BeforeEach
-    void save(){
+    void save() {
         categoriaTeste = new Categoria();
         categoriaTeste.setNome("teste");
-        categoriaTeste =categoriaRepository.save(categoriaTeste);
+        categoriaTeste = categoriaRepository.save(categoriaTeste);
     }
 
     @Test
-    void testeCriarProduto() throws Exception{
-         ProdutoRequestDTO produtoRequestDTO = new ProdutoRequestDTO("TESTE", BigDecimal.valueOf(99.9), 4, categoriaTeste.getId());
+    void testeCriarProduto() throws Exception {
+        ProdutoRequestDTO produtoRequestDTO = new ProdutoRequestDTO("TESTE", BigDecimal.valueOf(99.9), 4, categoriaTeste.getId());
 
-         String resultado = objectMapper.writeValueAsString(produtoRequestDTO);
+        String resultado = objectMapper.writeValueAsString(produtoRequestDTO);
 
-         mockMvc.perform(post("/api/produtos")
-                 .contentType(MediaType.APPLICATION_JSON)
-                 .content(resultado)
-         ).andExpect(status().isCreated());
-
-
+        mockMvc.perform(post("/api/produtos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(resultado)
+        ).andExpect(status().isCreated());
 
 
     }
 
+    @Test
+    void testeCriarProdutoComCategoriaInexistent() throws Exception{
+        ProdutoRequestDTO produtoRequestDTO = new ProdutoRequestDTO("Teste2", BigDecimal.valueOf(99.22), 4, UUID.randomUUID());
+
+        String resultado = objectMapper.writeValueAsString(produtoRequestDTO);
+
+        mockMvc.perform(post("/api/produtos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(resultado)).andExpect(status().isNotFound());
 
 
+    }
 
 
 }
