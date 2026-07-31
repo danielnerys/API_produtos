@@ -2,6 +2,7 @@ package com.kaniel.product.controller;
 
 import com.kaniel.product.dto.request.ProdutoAtualizacaoDTO;
 import com.kaniel.product.dto.request.ProdutoRequestDTO;
+import com.kaniel.product.dto.request.ProdutoVendaDTO;
 import com.kaniel.product.dto.response.ProdutoResponseDTO;
 import com.kaniel.product.mapper.ProdutoMapper;
 import com.kaniel.product.repository.ProdutoRepository;
@@ -52,6 +53,12 @@ public class ProdutoController {
     public ResponseEntity<Void> deletarProduto(@PathVariable UUID id){
        produtoService.deletarProduto(id);
        return ResponseEntity.noContent().build();
+    }
+
+
+    @PatchMapping("/{id}/vender")
+    public ResponseEntity<ProdutoResponseDTO> venderProduto(@PathVariable UUID id, @RequestBody @Valid ProdutoVendaDTO dto){
+        return new ResponseEntity<>(produtoMapper.toResponse(produtoService.venderProduto(id, dto)), HttpStatus.OK );
     }
 
 

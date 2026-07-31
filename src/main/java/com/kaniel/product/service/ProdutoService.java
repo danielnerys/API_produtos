@@ -1,10 +1,13 @@
 package com.kaniel.product.service;
 
 import com.kaniel.product.dto.request.ProdutoAtualizacaoDTO;
+import com.kaniel.product.dto.request.ProdutoVendaDTO;
 import com.kaniel.product.exception.CategoriaNaoEncontradaException;
+import com.kaniel.product.exception.EstoqueInsuficienteException;
 import com.kaniel.product.exception.ProdutoJaExistenteException;
 import com.kaniel.product.exception.ProdutoNaoEncontradoException;
 import com.kaniel.product.repository.CategoriaRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import com.kaniel.product.model.Produto;
 import org.springframework.stereotype.Service;
@@ -56,6 +59,21 @@ public class ProdutoService {
         Produto produtoASerDeletado = produtoRepository.findById(id).orElseThrow(() -> new ProdutoNaoEncontradoException(id));
 
         produtoRepository.delete(produtoASerDeletado);
+    }
+
+    @Transactional
+    public Produto venderProduto(UUID id, ProdutoVendaDTO dto){
+        Produto produtoASerVendido = produtoRepository.findById(id).orElseThrow(() -> new ProdutoNaoEncontradoException(id));
+
+        if(dto.quantidade() > produtoASerVendido.getQuantidadeEstoque()){
+            throw new EstoqueInsuficienteException(id, produtoASerVendido.getQuantidadeEstoque());
+        }
+        produtoASerVendido.setQuantidadeEstoque(produtoASerVendido.getQuantidadeEstoque()-dto.quantidade());
+
+        return produtoRepository.save(produtoASerVendido);
+
+
+
     }
 
 
