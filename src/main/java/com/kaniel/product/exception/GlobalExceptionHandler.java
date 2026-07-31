@@ -52,4 +52,12 @@ public class GlobalExceptionHandler {
         erro.put("mensagem", exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
     }
+
+    @ExceptionHandler(EstoqueInsuficienteException.class)
+    public ResponseEntity<Map<String, String>> tratarProdutoNaoEncontrado(EstoqueInsuficienteException exception){
+        Map<String, String> erro = new HashMap<>();
+
+        erro.put("mensagem", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(erro);
+    }
 }
