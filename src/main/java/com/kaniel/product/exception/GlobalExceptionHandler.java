@@ -58,6 +58,6 @@ public class GlobalExceptionHandler {
         Map<String, String> erro = new HashMap<>();
 
         erro.put("mensagem", exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(erro);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
     }
 }
