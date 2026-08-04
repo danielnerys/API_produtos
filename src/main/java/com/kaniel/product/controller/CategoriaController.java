@@ -39,12 +39,6 @@ public class CategoriaController {
     }
 
 
-    @GetMapping
-    public ResponseEntity<List<CategoriaResumoDTO>> listarTodos(){
-        List<CategoriaResumoDTO> categoriasCadastradas = categoriaService.listarTodos().stream().map(categoriaMapper::toResponse).toList();
-
-        return new ResponseEntity<>(categoriasCadastradas, HttpStatus.OK);
-    }
 
 
 }
