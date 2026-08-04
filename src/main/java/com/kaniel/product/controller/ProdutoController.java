@@ -5,9 +5,12 @@ import com.kaniel.product.dto.request.ProdutoRequestDTO;
 import com.kaniel.product.dto.request.ProdutoVendaDTO;
 import com.kaniel.product.dto.response.ProdutoResponseDTO;
 import com.kaniel.product.mapper.ProdutoMapper;
+import org.springframework.data.domain.Page;
 import com.kaniel.product.repository.ProdutoRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,10 +41,10 @@ public class ProdutoController {
 
 
     @GetMapping("/todos")
-    public ResponseEntity<List<ProdutoResponseDTO>> listarTodos() {
-        List<ProdutoResponseDTO> produtos = produtoRepository.findAll().stream().map(produtoMapper::toResponse).toList();
+    public ResponseEntity<Page<ProdutoResponseDTO>> listarTodos(Pageable pageable) {
+        Page<ProdutoResponseDTO> produtosPaginados = produtoRepository.findAll(pageable).map(produtoMapper::toResponse);
 
-        return ResponseEntity.ok(produtos);
+        return ResponseEntity.ok(produtosPaginados);
     }
 
     @PatchMapping("/{id}")
